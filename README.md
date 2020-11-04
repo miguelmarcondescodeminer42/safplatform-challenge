@@ -26,7 +26,7 @@ The output we'll be displayed in an alert and as HTML in page
 
 ## Running the tests
 
-Explain what these tests test and why
+To run the tests, just run:
 
 ```
 yarn test
