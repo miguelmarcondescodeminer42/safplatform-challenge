@@ -1,5 +1,3 @@
-import { parse } from '@babel/core'
-
 const SALES_TAX_EXEMPT = ['book', 'food', 'medical', 'chocolate', 'pill']
 const NAME_REGEX = /(?<=[0-9] )(.*)(?= at )/
 const BASIC_TAX_RATE = 10
@@ -80,15 +78,6 @@ export default class Cart {
 
   updateTotal(item_total) {
     this.total += item_total
-  }
-
-  roundUp(item) {
-    var rounded = parseFloat(item.taxes).toFixed(1)
-    var diff = item.taxes - rounded
-
-    if (diff > 0 && diff < ROUNDING_NUMBER) {
-      item.taxes = parseFloat(rounded) + parseFloat(ROUNDING_NUMBER)
-    }
   }
 
   formattedSummary() {
