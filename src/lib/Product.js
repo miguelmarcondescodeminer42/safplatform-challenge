@@ -1,14 +1,18 @@
+import FormattedProduct from './helpers/FormattedProduct'
+
 const BASIC_TAX_RATE = 10,
   IMPORTED_TAX_RATE = 5,
   APPROXIMATION_RATE = 0.05
 
 export default class Product {
-  constructor({name, quantity, price, exempt, imported}) {
-    this.name = name
-    this.quantity = quantity
-    this.price = price
-    this.exempt = exempt
-    this.imported = imported
+  constructor(attributes) {
+    let formattedAttributes = new FormattedProduct(attributes).formattedAttributes
+
+    this.name = formattedAttributes.name
+    this.quantity = formattedAttributes.quantity
+    this.price = formattedAttributes.price
+    this.exempt = formattedAttributes.exempt
+    this.imported = formattedAttributes.imported
     this.taxes = this.calcTaxes()
     this.total = this.calcTotal()
   }
