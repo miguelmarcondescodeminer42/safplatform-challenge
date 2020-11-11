@@ -3,7 +3,7 @@ import Cart from './lib/Cart.js'
 
 let cart = new Cart()
 cart.addGoods(goods_list)
-let output = cart.calcTaxes()
+let output = cart.formattedSummary()
 alert(output)
 
 var wrapper = document.getElementById('wrapper')

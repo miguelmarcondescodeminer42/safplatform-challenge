@@ -1,4 +1,4 @@
-import FormattedProduct from './helpers/FormattedProduct'
+import FormattedProduct from './helpers/FormattedProduct.js'
 
 const BASIC_TAX_RATE = 10,
   IMPORTED_TAX_RATE = 5,
