@@ -4,34 +4,34 @@ const SALES_TAX_EXEMPT = ['book', 'food', 'medical', 'chocolate', 'pill'],
   NAME_REGEX = /(?<=[0-9] )(.*)(?= at )/
 
 export default class Cart {
-  products_list = []
-  sales_taxes = 0.0
+  productsList = []
+  salesTaxes = 0.0
   total = 0.0
-  formatted_response = []
 
   addGoods(items_list) {
-    items_list.forEach((item, index) => {
-      const splitted_item = item.split(' ')
+    items_list.forEach((item) => {
+      const splittedItem = item.split(' ')
 
-      let product = new Product(
-        new RegExp(NAME_REGEX).exec(item)[0],
-        parseInt(splitted_item[0]),
-        parseFloat(splitted_item[splitted_item.length - 1]),
-        new RegExp(SALES_TAX_EXEMPT.join('|')).test(item),
-        item.includes('imported'),
-      )
+      let attributes = {
+        name: new RegExp(NAME_REGEX).exec(item)[0],
+        quantity: parseInt(splittedItem[0]),
+        price: parseFloat(splittedItem[splittedItem.length - 1]),
+        exempt: new RegExp(SALES_TAX_EXEMPT.join('|')).test(item),
+        imported: item.includes('imported')
+      }
+      let product = new Product(attributes)
 
       this.updateSalesTaxes(product.taxes, product.quantity)
       this.updateTotal(product.total)
 
-      this.products_list.push(product)
+      this.productsList.push(product)
     })
   }
 
   updateSalesTaxes(item_taxes, item_quantity) {
-    this.sales_taxes =
-      parseFloat(this.sales_taxes) + parseFloat(item_taxes * item_quantity)
-    this.sales_taxes = this.sales_taxes.toFixed(2)
+    this.salesTaxes =
+      parseFloat(this.salesTaxes) + parseFloat(item_taxes * item_quantity)
+    this.salesTaxes = this.salesTaxes.toFixed(2)
   }
 
   updateTotal(item_total) {
@@ -39,15 +39,14 @@ export default class Cart {
   }
 
   formattedSummary() {
-    this.products_list.forEach((item) => {
-      this.formatted_response.push(
-        `${item.quantity} ${item.name}: ${item.total.toFixed(2)}`,
-      )
-    })
+    const products = this.productsList.map(
+      (item) => `${item.quantity} ${item.name}: ${item.total.toFixed(2)}`
+    )
 
-    this.formatted_response.push(`Sales Taxes: ${this.sales_taxes}`)
-    this.formatted_response.push(`Total: ${this.total}`)
-
-    return this.formatted_response
+    return [
+      ...products,
+      `Sales Taxes: ${this.salesTaxes}`,
+      `Total: ${this.total}`
+    ]
   }
 }
